@@ -1,0 +1,17 @@
+.App {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-primary);
+}
+
+/* Smooth scroll animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
