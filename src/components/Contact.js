@@ -10,6 +10,8 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,12 +60,33 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message. We will get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Using mailto: to open user's email client with pre-filled information
+      const subject = encodeURIComponent(`Contact Form Submission from ${formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      );
+      
+      // Open email client with pre-filled information
+      window.location.href = `mailto:dr.gorimahansda@gmail.com?subject=${subject}&body=${body}`;
+      
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      
+      // Reset status after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -114,7 +137,9 @@ const Contact = () => {
           <div className="contact-info-item">
             <div className="contact-icon">✉️</div>
             <h3>Email</h3>
-            <p>Email address will be added here</p>
+            <a href="mailto:dr.gorimahansda@gmail.com" className="contact-link">
+              dr.gorimahansda@gmail.com
+            </a>
           </div>
         </div>
         <form className="contact-form" onSubmit={handleSubmit}>
@@ -154,9 +179,23 @@ const Contact = () => {
               placeholder="Your message..."
             ></textarea>
           </div>
-          <button type="submit" className="submit-button">
-            Send Message
+          <button 
+            type="submit" 
+            className="submit-button"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
+          {submitStatus === 'success' && (
+            <p className="form-status form-status-success">
+              ✓ Thank you! Your message has been sent. We'll get back to you soon.
+            </p>
+          )}
+          {submitStatus === 'error' && (
+            <p className="form-status form-status-error">
+              ✗ Something went wrong. Please try again or contact us directly.
+            </p>
+          )}
         </form>
       </div>
     </section>
