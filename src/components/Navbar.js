@@ -4,10 +4,16 @@ import './Navbar.css';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      
+      // Close mobile menu on scroll
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
       
       // Update active section based on scroll position
       const sections = ['home', 'specializations', 'services', 'gallery', 'about', 'contact'];
@@ -24,7 +30,7 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -37,7 +43,14 @@ const Navbar = () => {
         top: offsetPosition,
         behavior: 'smooth'
       });
+      
+      // Close mobile menu after clicking
+      setIsMobileMenuOpen(false);
     }
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -46,7 +59,18 @@ const Navbar = () => {
         <div className="navbar-logo" onClick={() => scrollToSection('home')}>
           Dr. Gorima Hansda
         </div>
-        <ul className="navbar-menu">
+        <button 
+          className="mobile-menu-toggle"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+        <ul className={`navbar-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <li>
             <a
               href="#home"
