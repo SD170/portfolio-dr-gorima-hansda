@@ -96,7 +96,7 @@ const Contact = () => {
         <div className="contact-info">
           <div className="contact-info-item">
             <div className="contact-icon">📍</div>
-            <h3>Clinic Locations</h3>
+            <h3>Nursing Home Location</h3>
             <div className="location-details">
               <div className="location-card">
                 <p className="location-name"><strong>North Point Nursing-Home Pvt. Ltd.</strong></p>
@@ -111,7 +111,12 @@ const Contact = () => {
                   <span>View on Google Maps</span>
                 </a>
               </div>
-              <p className="location-divider">—</p>
+            </div>
+          </div>
+          <div className="contact-info-item">
+            <div className="contact-icon">📍</div>
+            <h3>Clinic Location</h3>
+            <div className="location-details">
               <div className="location-card">
                 <p className="location-name"><strong>300 Laxmi Narayan Road</strong></p>
                 <p className="location-address">Swamiji Children's Park</p>
@@ -127,6 +132,7 @@ const Contact = () => {
               </div>
             </div>
           </div>
+          <h3 className="contact-section-heading">Contact Info</h3>
           <div className="contact-info-item">
             <div className="contact-icon">📞</div>
             <h3>Phone</h3>
@@ -142,7 +148,9 @@ const Contact = () => {
             </a>
           </div>
         </div>
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <div className="contact-form-wrapper">
+          <h3 className="contact-section-heading">Communicate with Us</h3>
+          <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name</label>
             <input
@@ -196,7 +204,8 @@ const Contact = () => {
               ✗ Something went wrong. Please try again or contact us directly.
             </p>
           )}
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

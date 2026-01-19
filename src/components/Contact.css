@@ -47,6 +47,22 @@
   line-height: 1.6;
 }
 
+.contact-section-heading {
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+  font-weight: 600;
+  font-family: var(--font-heading);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 2px solid var(--color-secondary);
+  width: 100%;
+}
+
+.contact-form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .contact-link {
   font-size: 0.95rem;
   color: var(--color-secondary);
