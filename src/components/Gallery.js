@@ -7,7 +7,6 @@ const Gallery = () => {
   const titleRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   // Replace with actual image paths once photos are added
   const images = [
@@ -48,13 +47,14 @@ const Gallery = () => {
       { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentSection = sectionRef.current;
+    if (currentSection) {
+      observer.observe(currentSection);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentSection) {
+        observer.unobserve(currentSection);
       }
     };
   }, []);
@@ -83,14 +83,13 @@ const Gallery = () => {
   };
 
   const openFullscreen = (index) => {
-    setSelectedImage(index);
+    setCurrentIndex(index);
     setIsFullscreen(true);
     document.body.style.overflow = 'hidden';
   };
 
   const closeFullscreen = () => {
     setIsFullscreen(false);
-    setSelectedImage(null);
     document.body.style.overflow = 'unset';
   };
 
@@ -139,7 +138,7 @@ const Gallery = () => {
                 <div key={index} className="carousel-slide">
                   <img 
                     src={image} 
-                    alt={`Gallery image ${index + 1}`}
+                    alt={`Gallery ${index + 1}`}
                     className="carousel-image"
                     onClick={() => openFullscreen(index)}
                     onError={(e) => {
@@ -213,11 +212,11 @@ const Gallery = () => {
             ‹
           </button>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={images[currentIndex]} 
-              alt={`Fullscreen image ${currentIndex + 1}`}
-              className="modal-image"
-            />
+              <img 
+                src={images[currentIndex]} 
+                alt={`Fullscreen ${currentIndex + 1}`}
+                className="modal-image"
+              />
             <div className="modal-counter">
               {currentIndex + 1} / {images.length}
             </div>
